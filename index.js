@@ -97,48 +97,45 @@ async function createAnnotationElement() {
   document.getElementById('canvas-container')
     .prepend(annotationEl);
 
-  setTimeout(() => {
-    interact(`#${annotationId}`)
-      .draggable({
-        origin: 'parent',
-        listeners: {
-          move(event) {
-            annotation.x += event.dx
-            annotation.y += event.dy
+  interact(`#${annotationId}`)
+    .draggable({
+      origin: 'parent',
+      listeners: {
+        move(event) {
+          annotation.x += event.dx
+          annotation.y += event.dy
 
-            event.target.style.transform =
-              `translate(${annotation.x}px, ${annotation.y}px)`
-          },
-        }
-      })
-      .resizable({
-        edges: { left: true, right: true, bottom: true, top: true },
-      })
-      .on('resizemove', event => {
-        let { x, y } = annotation;
+          event.target.style.transform =
+            `translate(${annotation.x}px, ${annotation.y}px)`
+        },
+      }
+    })
+    .resizable({
+      edges: { left: true, right: true, bottom: true, top: true },
+    })
+    .on('resizemove', event => {
+      let { x, y } = annotation;
 
-        // translate when resizing from top or left edges
-        x += event.deltaRect.left
-        y += event.deltaRect.top
+      // translate when resizing from top or left edges
+      x += event.deltaRect.left
+      y += event.deltaRect.top
 
-        Object.assign(annotation, { x, y });
-        annotation.width = event.rect.width;
-        annotation.height = event.rect.height;
+      Object.assign(annotation, { x, y });
+      annotation.width = event.rect.width;
+      annotation.height = event.rect.height;
 
-        Object.assign(event.target.style, {
-          width: `${event.rect.width}px`,
-          height: `${event.rect.height}px`,
-          transform: `translate(${x}px, ${y}px)`
-        })
+      Object.assign(event.target.style, {
+        width: `${event.rect.width}px`,
+        height: `${event.rect.height}px`,
+        transform: `translate(${x}px, ${y}px)`
       })
     });
-  
 
   return { annotation, annotationEl };
 }
 
 function randomString(length) {
-  const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   let array = new Uint8Array(length);
   window.crypto.getRandomValues(array);
   array = array.map(x => validChars.charCodeAt(x % validChars.length));
