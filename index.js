@@ -100,6 +100,12 @@ async function createAnnotationElement() {
   interact(`#${annotationId}`)
     .draggable({
       origin: 'parent',
+      modifiers: [
+        interact.modifiers.restrict({
+          restriction: 'parent',
+          endOnly: true
+        })
+      ],
       listeners: {
         move(event) {
           annotation.x += event.dx
