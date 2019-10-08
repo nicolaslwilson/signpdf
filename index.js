@@ -79,7 +79,7 @@ async function renderAnnotatedPdf() {
   return saveByteArray('signed.pdf', pdfBytes);
 }
 
-async function createAnnotationElement() {
+function createAnnotationElement() {
   const annotationId = randomString(32);
 
   const annotation = {
